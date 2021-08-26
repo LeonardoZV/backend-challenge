@@ -13,12 +13,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class UserServiceImplTest {
+public class UserServiceImplUnitTest {
 
     private final UserServiceImpl userService;
 
     @Autowired
-    public UserServiceImplTest(UserServiceImpl userService) {
+    public UserServiceImplUnitTest(UserServiceImpl userService) {
         this.userService = userService;
     }
 
