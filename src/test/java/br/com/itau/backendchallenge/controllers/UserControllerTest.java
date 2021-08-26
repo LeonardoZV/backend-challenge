@@ -50,8 +50,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/user/password/validate")
                 .content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("true")));
+                .andExpect(status().isOk());
 
     }
 

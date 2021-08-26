@@ -6,6 +6,7 @@ import br.com.itau.backendchallenge.models.Error;
 import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +54,7 @@ public class ExceptionControllerTest {
 
         String responseJson = mapper.writeValueAsString(response);
 
-        when(userController.validatePassword(any(ValidatePasswordRequest.class))).thenThrow(exception);
+        doThrow(exception).when(userController).validatePassword(any(ValidatePasswordRequest.class));
 
         mockMvc.perform(post("/user/password/validate")
                 .content(requestJson)

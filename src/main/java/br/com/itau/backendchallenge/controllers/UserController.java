@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping("/user/password/validate")
-    public boolean validatePassword(@RequestBody ValidatePasswordRequest validatePasswordRequest) throws InvalidPasswordException {
-        return userService.isValidPassword(validatePasswordRequest.getPassword());
+    public void validatePassword(@RequestBody ValidatePasswordRequest validatePasswordRequest) throws InvalidPasswordException {
+        userService.isValidPassword(validatePasswordRequest.getPassword());
     }
 
 }
