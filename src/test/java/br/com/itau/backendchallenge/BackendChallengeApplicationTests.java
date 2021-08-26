@@ -8,8 +8,7 @@ class BackendChallengeApplicationTests {
 
 	@Test
 	void contextLoads() {
-		BackendChallengeApplication backendChallengeApplication = new BackendChallengeApplication();
-		backendChallengeApplication.main(new String[] {});
+		BackendChallengeApplication.main(new String[] {});
 	}
 
 }
