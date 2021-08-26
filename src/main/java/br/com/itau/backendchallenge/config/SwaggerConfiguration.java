@@ -1,6 +1,5 @@
 package br.com.itau.backendchallenge.config;
 
-import br.com.itau.backendchallenge.controllers.UserController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

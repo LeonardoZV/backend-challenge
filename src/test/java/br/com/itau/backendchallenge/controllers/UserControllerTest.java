@@ -1,8 +1,5 @@
 package br.com.itau.backendchallenge.controllers;
 
-import br.com.itau.backendchallenge.models.ApiErrorResponse;
-import br.com.itau.backendchallenge.models.Error;
-import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
 import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import br.com.itau.backendchallenge.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,17 +10,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import static org.hamcrest.CoreMatchers.containsString;
 
 @WebMvcTest(controllers = UserController.class)
 public class UserControllerTest {
