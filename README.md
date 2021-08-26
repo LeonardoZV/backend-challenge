@@ -68,6 +68,12 @@ Exemplo de envio da requisição utilizando o utilitário curl.
 curl -X POST "http://localhost:8080/user/password/validate" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"password\": \"AbTp9!fok\"}"
 ```
 
+Também pode ser utilizada a interface do Swagger para teste dos endpoints e consulta da documentação:
+
+```bash
+http://localhost:8080/swagger-ui.html
+```
+
 # Racional da Solução
 
 A idéia foi não apenas criar um microserviço para o domínio da senha e sim um microserviço para o domínio de usuários, contendo o endpoint para alteração de senha.
@@ -75,6 +81,10 @@ A idéia foi não apenas criar um microserviço para o domínio da senha e sim u
 Abandonei o requisito de retornar um booleano por entender que a melhor experiência para o usuário seria de retornarmos no detalhe quais as regras não foram atendidas, como muitas outras aplicações já fazem.
 
 O microserviço foi estruturado da seguinte maneira:
+
+### Config
+
+`SwaggerConfiguration` responsável por conter as configurações do Swagger.
 
 ### Controllers
 
