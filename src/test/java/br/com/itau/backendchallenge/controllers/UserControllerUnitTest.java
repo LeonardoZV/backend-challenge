@@ -25,7 +25,7 @@ public class UserControllerUnitTest {
     @MockBean
     private UserServiceImpl userService;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void mustValidatePasswordWithSuccess() throws Exception {

@@ -30,7 +30,7 @@ public class ExceptionControllerUnitTest {
     @MockBean
     private UserController userController;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void mustValidatePasswordWithError() throws Exception {

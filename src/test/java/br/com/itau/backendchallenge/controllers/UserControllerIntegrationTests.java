@@ -24,7 +24,7 @@ class UserControllerIntegrationTests {
 
 	private MockMvc mockMvc;
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
 	public void setup() {
