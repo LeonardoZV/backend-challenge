@@ -1,36 +1,31 @@
 package br.com.itau.backendchallenge.services;
 
-import br.com.itau.backendchallenge.models.Error;
-
 import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
-
+import br.com.itau.backendchallenge.models.Error;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class UserServiceImplUnitTest {
+@ExtendWith(MockitoExtension.class)
+class UserServiceImplUnitTest {
 
-    private final UserServiceImpl userService;
-
-    @Autowired
-    public UserServiceImplUnitTest(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+    @InjectMocks
+    private UserServiceImpl userService;
 
     @Test
-    public void mustReturnTrueWhenPasswordIsValid() throws Exception {
+    void whenPasswordIsValid_thenReturnTrue() throws Exception {
 
         assertTrue(this.userService.isValidPassword("AbTp9!fok"));
 
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordIsNull() {
+    void whenPasswordIsNull_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword(null));
 
@@ -38,12 +33,12 @@ public class UserServiceImplUnitTest {
 
         assertTrue(error.isPresent());
 
-        assertEquals("Campo password não preenchido.", error.get().getMessage());
+        assertEquals("Campo password deve ser preenchido.", error.get().getMessage());
 
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordIsEmpty() {
+    void whenPasswordIsEmpty_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword(""));
 
@@ -51,12 +46,12 @@ public class UserServiceImplUnitTest {
 
         assertTrue(error.isPresent());
 
-        assertEquals("Campo password não preenchido.", error.get().getMessage());
+        assertEquals("Campo password deve ser preenchido.", error.get().getMessage());
 
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasLessThanNineCharacters() {
+    void whenPasswordHasLessThanNineCharacters_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("a"));
 
@@ -69,7 +64,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasNotAtLeastOneDigit() {
+    void whenPasswordHasNotAtLeastOneDigit_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("abcdefghi"));
 
@@ -82,7 +77,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasNotAtLeastOneLowercaseLetter() {
+    void whenPasswordHasNotAtLeastOneLowercaseLetter_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("A"));
 
@@ -95,7 +90,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasNotAtLeastOneUppercaseLetter() {
+    void whenPasswordHasNotAtLeastOneUppercaseLetter_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("b"));
 
@@ -108,7 +103,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasNotAtLeastOneSpecialCharacter() {
+    void whenPasswordHasNotAtLeastOneSpecialCharacter_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("c"));
 
@@ -121,7 +116,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasNotAllowedSpecialCharacter() {
+    void whenPasswordHasNotAllowedSpecialCharacter_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("."));
 
@@ -134,7 +129,7 @@ public class UserServiceImplUnitTest {
     }
 
     @Test
-    public void mustThrowErrorWhenPasswordHasRepeatedCharacters() {
+    void whenPasswordHasRepeatedCharacters_thenThrowError() {
 
         InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("AbTp9!foA"));
 

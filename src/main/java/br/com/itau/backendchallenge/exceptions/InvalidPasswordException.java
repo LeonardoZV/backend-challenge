@@ -6,7 +6,7 @@ import java.util.List;
 
 public class InvalidPasswordException extends Exception {
 
-    private List<Error> errors;
+    private final List<Error> errors;
 
     public InvalidPasswordException(List<Error> errors) {
         this.errors = errors;
@@ -14,10 +14,6 @@ public class InvalidPasswordException extends Exception {
 
     public List<Error> getErrors() {
         return errors;
-    }
-
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
     }
 
 }

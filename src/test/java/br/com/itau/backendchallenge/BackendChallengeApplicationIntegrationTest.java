@@ -1,14 +1,15 @@
 package br.com.itau.backendchallenge;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendChallengeApplicationUnitTests {
+class BackendChallengeApplicationIntegrationTest {
 
 	@Test
 	void contextLoads() {
-		BackendChallengeApplication.main(new String[] {});
+		Assertions.assertDoesNotThrow(() -> BackendChallengeApplication.main(new String[] {}));
 	}
 
 }

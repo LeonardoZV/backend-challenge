@@ -1,47 +1,64 @@
 package br.com.itau.backendchallenge.controllers;
 
+import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
+import br.com.itau.backendchallenge.models.ApiErrorResponse;
+import br.com.itau.backendchallenge.models.Error;
 import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import br.com.itau.backendchallenge.services.UserServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+@ExtendWith(MockitoExtension.class)
+class UserControllerUnitTest {
 
-@WebMvcTest(controllers = UserController.class)
-public class UserControllerUnitTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private UserServiceImpl userService;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    @InjectMocks
+    private UserController userController;
 
     @Test
-    public void mustValidatePasswordWithSuccess() throws Exception {
+    void whenReceiveAnyString_thenCallIsValidPasswordMethod() throws Exception {
 
         ValidatePasswordRequest request = new ValidatePasswordRequest();
 
         request.setPassword("AbTp9!fok");
 
-        String requestJson = mapper.writeValueAsString(request);
+        this.userController.validatePassword(request);
 
-        when(userService.isValidPassword(any(String.class))).thenReturn(true);
+        verify(this.userService, times(1)).isValidPassword(any(String.class));
 
-        mockMvc.perform(post("/user/password/validate")
-                .content(requestJson)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+    }
+
+    @Test
+    void whenInvalidPasswordExceptionIsThrown_thenReturns400() {
+
+        List<Error> errorList = new ArrayList<>();
+
+        Error error = new Error("password-validation-001", "Campo password não preenchido.");
+
+        errorList.add(error);
+
+        ApiErrorResponse response = new ApiErrorResponse(errorList);
+
+        ResponseEntity<ApiErrorResponse> expectedResponseEntity = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+        ResponseEntity<ApiErrorResponse> actualResponseEntity = this.userController.handleInvalidPasswordException(new InvalidPasswordException(errorList));
+
+        assertEquals(expectedResponseEntity.getStatusCode(), actualResponseEntity.getStatusCode());
 
     }
 
