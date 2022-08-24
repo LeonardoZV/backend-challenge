@@ -4,6 +4,8 @@ import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
 import br.com.itau.backendchallenge.models.Error;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -24,120 +26,27 @@ class UserServiceImplUnitTest {
 
     }
 
-    @Test
-    void whenPasswordIsNull_thenThrowError() {
+    @ParameterizedTest
+    @CsvSource(delimiter = ';', value = {
+            ";password-validation-001;Campo password deve ser preenchido.",
+            "'';password-validation-001;Campo password deve ser preenchido.",
+            "a;password-validation-002;Campo password deve conter nove ou mais caracteres.",
+            "abcdefghi;password-validation-003;Campo password deve conter ao menos um dígito.",
+            "A;password-validation-004;Campo password deve conter ao menos uma letra minúscula.",
+            "b;password-validation-005;Campo password deve conter ao menos uma letra maiúscula.",
+            "c;password-validation-006;Campo password deve conter ao menos um caractere especial.",
+            ".;password-validation-007;Campo password deve conter apenas caraceteres válidos como: letras, digitos ou os caracteres especiais !@#$%^&*()-+",
+            "AbTp9!foA;password-validation-008;Campo password não deve conter caracteres repetidos."
+    })
+    void whenPasswordIsNotValid_thenThrowAndLogError(String password, String errorType, String errorMessage) {
 
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword(null));
+        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword(password));
 
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-001")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve ser preenchido.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordIsEmpty_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword(""));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-001")).findFirst();
+        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals(errorType)).findFirst();
 
         assertTrue(error.isPresent());
 
-        assertEquals("Campo password deve ser preenchido.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasLessThanNineCharacters_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("a"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-002")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter nove ou mais caracteres.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasNotAtLeastOneDigit_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("abcdefghi"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-003")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter ao menos um dígito.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasNotAtLeastOneLowercaseLetter_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("A"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-004")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter ao menos uma letra minúscula.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasNotAtLeastOneUppercaseLetter_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("b"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-005")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter ao menos uma letra maiúscula.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasNotAtLeastOneSpecialCharacter_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("c"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-006")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter ao menos um caractere especial.", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasNotAllowedSpecialCharacter_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("."));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-007")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password deve conter apenas caraceteres válidos como: letras, digitos ou os caracteres especiais !@#$%^&*()-+", error.get().getMessage());
-
-    }
-
-    @Test
-    void whenPasswordHasRepeatedCharacters_thenThrowError() {
-
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class, () -> this.userService.isValidPassword("AbTp9!foA"));
-
-        Optional<Error> error = exception.getErrors().stream().filter(e -> e.getType().equals("password-validation-008")).findFirst();
-
-        assertTrue(error.isPresent());
-
-        assertEquals("Campo password não deve conter caracteres repetidos.", error.get().getMessage());
+        assertEquals(errorMessage, error.get().getMessage());
 
     }
 
