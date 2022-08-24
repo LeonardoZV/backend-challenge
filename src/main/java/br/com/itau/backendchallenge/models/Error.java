@@ -1,7 +1,10 @@
 package br.com.itau.backendchallenge.models;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 
+@Getter
 public class Error implements Serializable {
 
     private String type;
@@ -10,14 +13,6 @@ public class Error implements Serializable {
     public Error(String type, String message) {
         this.type = type;
         this.message = message;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
 }

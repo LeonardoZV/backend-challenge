@@ -1,7 +1,6 @@
 package br.com.itau.backendchallenge.controllers;
 
 import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
-import br.com.itau.backendchallenge.models.ApiErrorResponse;
 import br.com.itau.backendchallenge.models.Error;
 import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import br.com.itau.backendchallenge.services.UserServiceImpl;
@@ -52,11 +51,9 @@ class UserControllerUnitTest {
 
         errorList.add(error);
 
-        ApiErrorResponse response = new ApiErrorResponse(errorList);
+        ResponseEntity<List<Error>> expectedResponseEntity = new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
 
-        ResponseEntity<ApiErrorResponse> expectedResponseEntity = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
-        ResponseEntity<ApiErrorResponse> actualResponseEntity = this.userController.handleInvalidPasswordException(new InvalidPasswordException(errorList));
+        ResponseEntity<List<Error>> actualResponseEntity = this.userController.handleInvalidPasswordException(new InvalidPasswordException(errorList));
 
         assertEquals(expectedResponseEntity.getStatusCode(), actualResponseEntity.getStatusCode());
 

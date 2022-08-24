@@ -1,6 +1,5 @@
 package br.com.itau.backendchallenge.controllers;
 
-import br.com.itau.backendchallenge.models.ApiErrorResponse;
 import br.com.itau.backendchallenge.models.Error;
 import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,9 +61,7 @@ class UserControllerIntegrationTest {
 
 		errorList.add(error);
 
-		ApiErrorResponse response = new ApiErrorResponse(errorList);
-
-		String responseJson = mapper.writeValueAsString(response);
+		String responseJson = mapper.writeValueAsString(errorList);
 
 		this.mockMvc.perform(post("/user/password/validate")
 					.content(requestJson)
