@@ -67,10 +67,10 @@ class UserControllerIntegrationTest {
 		String responseJson = mapper.writeValueAsString(response);
 
 		this.mockMvc.perform(post("/user/password/validate")
-						.content(requestJson)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andExpect(content().json(responseJson));
+					.content(requestJson)
+					.contentType(MediaType.APPLICATION_JSON))
+					.andExpect(status().isBadRequest())
+					.andExpect(content().json(responseJson));
 
 	}
 

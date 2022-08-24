@@ -1,6 +1,8 @@
 package br.com.itau.backendchallenge.models;
 
-public class Error {
+import java.io.Serializable;
+
+public class Error implements Serializable {
 
     private String type;
     private String message;
@@ -14,16 +16,8 @@ public class Error {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
 }
