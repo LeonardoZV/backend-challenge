@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +37,7 @@ class UserControllerUnitTest {
 
         this.userController.validatePassword(request);
 
-        verify(this.userService, times(1)).isValidPassword(any(String.class));
+        verify(this.userService).isValidPassword(any(String.class));
 
     }
 
