@@ -2,7 +2,6 @@ package br.com.itau.backendchallenge.controllers;
 
 import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
 import br.com.itau.backendchallenge.models.Error;
-import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import br.com.itau.backendchallenge.services.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,11 +30,7 @@ class UserControllerUnitTest {
     @Test
     void whenReceiveAnyString_thenCallIsValidPasswordMethod() throws Exception {
 
-        ValidatePasswordRequest request = new ValidatePasswordRequest();
-
-        request.setPassword("AbTp9!fok");
-
-        this.userController.validatePassword(request);
+        this.userController.validatePassword("AbTp9!fok");
 
         verify(this.userService).isValidPassword(any(String.class));
 

@@ -2,10 +2,10 @@ package br.com.itau.backendchallenge.controllers;
 
 import br.com.itau.backendchallenge.exceptions.InvalidPasswordException;
 import br.com.itau.backendchallenge.models.Error;
-import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import br.com.itau.backendchallenge.services.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/user/password/validate")
-    public void validatePassword(@RequestBody ValidatePasswordRequest validatePasswordRequest) throws InvalidPasswordException {
-        this.userService.isValidPassword(validatePasswordRequest.getPassword());
+    public void validatePassword(@Nullable @RequestBody String password) throws InvalidPasswordException {
+        this.userService.isValidPassword(password);
     }
 
     @ExceptionHandler(InvalidPasswordException.class)

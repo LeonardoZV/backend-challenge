@@ -1,7 +1,6 @@
 package br.com.itau.backendchallenge.controllers;
 
 import br.com.itau.backendchallenge.models.Error;
-import br.com.itau.backendchallenge.models.ValidatePasswordRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,8 @@ class UserControllerIntegrationTest {
     @Test
     void whenPasswordIsValid_thenReturns200() throws Exception {
 
-		ValidatePasswordRequest request = new ValidatePasswordRequest();
-
-		request.setPassword("AbTp9!fok");
-
-		String requestJson = mapper.writeValueAsString(request);
-
 		this.mockMvc.perform(post("/user/password/validate")
-				.content(requestJson)
+				.content("AbTp9!fok")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 
@@ -48,12 +41,6 @@ class UserControllerIntegrationTest {
 
 	@Test
 	void whenPasswordIsInvalid_thenReturns400() throws Exception {
-
-		ValidatePasswordRequest request = new ValidatePasswordRequest();
-
-		request.setPassword(null);
-
-		String requestJson = mapper.writeValueAsString(request);
 
 		List<Error> errorList = new ArrayList<>();
 
@@ -64,7 +51,7 @@ class UserControllerIntegrationTest {
 		String responseJson = mapper.writeValueAsString(errorList);
 
 		this.mockMvc.perform(post("/user/password/validate")
-					.content(requestJson)
+					.content("")
 					.contentType(MediaType.APPLICATION_JSON))
 					.andExpect(status().isBadRequest())
 					.andExpect(content().json(responseJson));
