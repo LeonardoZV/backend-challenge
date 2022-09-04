@@ -10,7 +10,7 @@ Nesta versão 1.0, só está disponível o endpoint de validação de senha.
 
 A aplicação precisa dos seguintes softwares para executar:
 
-- Java 11
+- Java 17
 - Maven 3
 
 # Compilando
@@ -45,35 +45,30 @@ http://localhost:8080/user/password/validate
 Exemplo de requisição:
 
 ```
-{
-  "password" : "AbTp9!fok"
-}
+"AbTp9!fok"
 ```
 
 Exemplo de resposta:
 
 ```
-{
-    "errors": [
-        {
-            "code": 400,
-            "type": "password-validation-002",
-            "message": "Campo password deve conter nove ou mais caracteres."
-        }
-    ]
-}
+[
+    {
+        "type": "password-validation-002",
+        "message": "Campo password deve conter nove ou mais caracteres."
+    }
+]
 ```
 
 Exemplo de envio da requisição utilizando o utilitário curl.
 
 ```bash
-curl -X POST "http://localhost:8080/user/password/validate" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"password\": \"AbTp9!fok\"}"
+curl -X POST "http://localhost:8080/user/password/validate" -H "accept: application/json" -H "Content-Type: application/json" -d "AbTp9!fok"
 ```
 
 Também pode ser utilizada a interface do Swagger para teste dos endpoints e consulta da documentação:
 
 ```bash
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 ```
 
 # Racional da Solução
@@ -84,10 +79,6 @@ Abandonei o requisito de retornar um booleano por entender que a melhor experiê
 
 O microserviço foi estruturado da seguinte maneira:
 
-### Config
-
-`SwaggerConfiguration` responsável por conter as configurações do Swagger.
-
 ### Controllers
 
 `UserController` é responsável por controlar os endpoints da aplicação.
@@ -97,40 +88,32 @@ Caso a senha não contenha erros de validação, a aplicação retorna `OK`.
 Caso a senha contenha erros de validação, a aplicação retorna `BAD REQUEST` mais a lista de todos os erros, como no exemplo:
 
 ```
-{
-    "errors": [
-        {
-            "code": 400,
-            "type": "password-validation-002",
-            "message": "Campo password deve conter nove ou mais caracteres."
-        },
-        {
-            "code": 400,
-            "type": "password-validation-003",
-            "message": "Campo password deve conter ao menos um dígito."
-        },
-        {
-            "code": 400,
-            "type": "password-validation-005",
-            "message": "Campo password deve conter ao menos uma letra maiúscula."
-        },
-        {
-            "code": 400,
-            "type": "password-validation-006",
-            "message": "Campo password deve conter ao menos um caractere especial."
-        },
-        {
-            "code": 400,
-            "type": "password-validation-008",
-            "message": "Campo password não deve conter caracteres repetidos."
-        }
-    ]
-}
+
+[
+    {
+        "type": "password-validation-002",
+        "message": "Campo password deve conter nove ou mais caracteres."
+    },
+    {
+        "type": "password-validation-003",
+        "message": "Campo password deve conter ao menos um dígito."
+    },
+    {
+        "type": "password-validation-005",
+        "message": "Campo password deve conter ao menos uma letra maiúscula."
+    },
+    {
+        "type": "password-validation-006",
+        "message": "Campo password deve conter ao menos um caractere especial."
+    },
+    {
+        "type": "password-validation-008",
+        "message": "Campo password não deve conter caracteres repetidos."
+    }
+]
 ```
 
 Caso ocorra algum erro interno não tratado, a aplicação retorna `INTERNAL SERVER ERROR`.
-
-`ExceptionController` é responsável por centralizer o tratamento de exceções customizadas da aplicação, sendo nesta versão apenas `InvalidPasswordException`.
 
 ### Services
 
@@ -142,11 +125,7 @@ Optei pela utilização de expressões regulares para realizar as validações p
 
 ### Models
 
-`ValidatePasswordRequest` representa o modelo de requisição da API, contendo a senha.
-
-`ApiErrorResponse` representa o modelo de resposta da API em caso de erro, contendo uma lista de `Erro`.
-
-`Error` representa o modelo dos erros, contendo o status code do erro, tipo do erro e mensagem do erro.
+`Error` representa o modelo dos erros, contendo o tipo do erro e mensagem do erro.
 
 ### Exceptions
 
