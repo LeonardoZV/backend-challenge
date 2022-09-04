@@ -1,4 +1,6 @@
 # Microserviço de Usuários
+[![Coverage](http://leozvasconcellos-sonarqube.eastus.azurecontainer.io:9000/api/project_badges/measure?project=LeonardoZV_backend-challenge&metric=coverage&token=8955df9992b8458c5a2e11756467f1f836e17218)](http://leozvasconcellos-sonarqube.eastus.azurecontainer.io:9000/dashboard?id=LeonardoZV_backend-challenge)
+[![Quality Gate Status](http://leozvasconcellos-sonarqube.eastus.azurecontainer.io:9000/api/project_badges/measure?project=LeonardoZV_backend-challenge&metric=alert_status&token=8955df9992b8458c5a2e11756467f1f836e17218)](http://leozvasconcellos-sonarqube.eastus.azurecontainer.io:9000/dashboard?id=LeonardoZV_backend-challenge)
 
 Este microserviço é responsável pelas requisições ao domínio de Usuários.
 
